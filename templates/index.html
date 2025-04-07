@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stealth Communication Interface</title>
+</head>
+<body>
+    <h1>🛰️ Wireless Stealth Communication UI</h1>
+
+    <!-- Text Message Form -->
+    <form action="/send_text" method="post">
+        <label>Enter your message:</label><br>
+        <textarea name="text" rows="4" cols="50"></textarea><br>
+        <button type="submit">Send Text</button>
+    </form>
+
+    <hr>
+
+    <!-- Audio Upload Form -->
+    <form action="/upload_audio" method="post" enctype="multipart/form-data">
+        <label>Upload Audio File:</label><br>
+        <input type="file" name="audio" accept=".wav"><br>
+        <button type="submit">Upload Audio</button>
+    </form>
+
+    <h4>Simulation</h4>
+<label>
+  <input type="checkbox" id="jammingToggle"> Simulate Jamming
+</label><br>
+<label>
+  <input type="checkbox" id="eavesdropToggle"> Simulate Eavesdropping
+</label><br><br>
+
+<button onclick="setSimulationFlags()">Apply Simulation Settings</button>
+
+<script>
+function setSimulationFlags() {
+  const simulate_jamming = document.getElementById('jammingToggle').checked;
+  const simulate_eavesdropping = document.getElementById('eavesdropToggle').checked;
+
+  fetch('/set_simulation_flags', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ simulate_jamming, simulate_eavesdropping })
+  })
+  .then(res => res.json())
+  .then(data => alert("✅ Flags updated"))
+  .catch(err => alert("❌ Failed to update flags"));
+}
+</script>
+
+
+</body>
+</html>
